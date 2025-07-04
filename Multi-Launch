@@ -1,5 +1,5 @@
 #!/bin/bash
-DOWNLOAD_URL="https://github.com/alexkkork/Multi-Launch/raw/refs/heads/main/Multi-launch"
+DOWNLOAD_URL="https://github.com/alexkkork/Multi-Launch/releases/download/Launch/MultiLaunch.zip"
 TEMP_DOWNLOAD_PATH="/tmp/MultiLaunch_download_$(date +%s)"
 TARGET_APP_NAME="MultiLaunch.app"
 TARGET_APPLICATIONS_DIR="/Applications"
