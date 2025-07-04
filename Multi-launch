@@ -1,0 +1,26 @@
+#!/bin/bash
+DOWNLOAD_URL="https://github.com/alexkkork/Multi-Launch/raw/refs/heads/main/MultiLaunch.zip"
+TEMP_ZIP="/tmp/MultiLaunch.zip"
+TEMP_DIR="/tmp/MultiLaunch_install"
+TARGET_APP_PATH="/Applications/MultiLaunch.app"
+echo "Starting MultiLaunch installation..."
+echo "Downloading MultiLaunch..."
+curl -L "$DOWNLOAD_URL" -o "$TEMP_ZIP" || { echo "Error: Download failed."; exit 1; }
+mkdir -p "$TEMP_DIR" || { echo "Error: Could not create temporary directory."; exit 1; }
+echo "Unpacking MultiLaunch..."
+unzip -q "$TEMP_ZIP" -d "$TEMP_DIR" || { echo "Error: Unzipping failed."; exit 1; }
+rm "$TEMP_ZIP"
+if [ ! -d "$TEMP_DIR/MultiLaunch.app" ]; then
+    echo "Error: MultiLaunch.app not found in downloaded package."
+    rm -rf "$TEMP_DIR"
+    exit 1
+fi
+echo "Preparing MultiLaunch for use..."
+xattr -rc "$TEMP_DIR/MultiLaunch.app"
+chmod -R +rwx "$TEMP_DIR/MultiLaunch.app"
+echo "Moving MultiLaunch to Applications folder..."
+sudo rm -rf "$TARGET_APP_PATH"
+sudo mv "$TEMP_DIR/MultiLaunch.app" "$TARGET_APP_PATH" || { echo "Error: Could not move MultiLaunch to Applications. Sudo permissions may be required."; rm -rf "$TEMP_DIR"; exit 1; }
+rm -rf "$TEMP_DIR"
+echo "MultiLaunch installed successfully."
+echo "You can now find MultiLaunch in your Applications folder."
